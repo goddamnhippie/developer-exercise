@@ -51,9 +51,9 @@ class Hand
   end
 end
 
-require 'test/unit'
+require 'minitest/autorun'
 
-class CardTest < Test::Unit::TestCase
+class CardTest < MiniTest::Test
   def setup
     @card = Card.new(:hearts, :ten, 10)
   end
@@ -70,7 +70,7 @@ class CardTest < Test::Unit::TestCase
   end
 end
 
-class DeckTest < Test::Unit::TestCase
+class DeckTest < MiniTest::Test
   def setup
     @deck = Deck.new
   end
