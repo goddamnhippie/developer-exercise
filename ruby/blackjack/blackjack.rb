@@ -81,7 +81,7 @@ class DeckTest < MiniTest::Test
 
   def test_dealt_card_should_not_be_included_in_playable_cards
     card = @deck.deal_card
-    assert(@deck.playable_cards.include?(card))
+    refute @deck.playable_cards.include?(card)
   end
 
   def test_shuffled_deck_has_52_playable_cards
