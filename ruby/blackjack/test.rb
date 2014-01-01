@@ -38,3 +38,29 @@ class DeckTest < MiniTest::Test
     assert_equal @deck.playable_cards.size, 52
   end
 end
+
+class GameTest < MiniTest::Test
+  def test_get_hand_with_two_cards_as_player
+
+  end
+
+  def test_get_hand_with_two_cards_as_dealer
+
+  end
+
+  def test_can_see_one_dealer_card_as_player
+
+  end
+
+  def test_can_bust_when_playing
+
+  end
+
+  def test_can_blackjack_when_playing
+
+  end
+
+  def test_can_play_after_player_as_dealer
+
+  end
+end
