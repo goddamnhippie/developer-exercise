@@ -5,12 +5,10 @@ class Array
     find_all do |i|
       args.all? do |k, v|
         case v
-        when String
+        when String, Numeric
           v == i[k]
         when Regexp
           v.match i[k]
-        when Numeric
-          v == i[k]
         end
       end
     end
