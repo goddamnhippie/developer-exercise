@@ -8,6 +8,10 @@ class Card
   def to_s
     [suite, name, value].to_s
   end
+
+  def multivalue?
+    value.is_a? Array
+  end
 end
 
 class Deck
@@ -52,5 +56,51 @@ class Hand
 
   def initialize
     @cards = []
+  end
+
+  def cards_with_single_value
+    cards.reject &:multivalue?
+  end
+
+  def cards_with_multiple_values
+    cards - cards_with_single_value
+  end
+
+  def values
+    base = cards_with_single_value.map(&:value).reduce &:+
+
+    return [base] if cards_with_multiple_values.empty?
+
+    cards_with_multiple_values.map do |c|
+      c.value.map { |v| base + v }
+    end.flatten
+  end
+
+  def get_card card
+    cards << card
+  end
+
+  def status
+    return :bust      if bust?
+    return :blackjack if blackjack?
+    :playing
+  end
+
+  def bust?
+    values.all? { |v| v > 21 }
+  end
+
+  def blackjack?
+    values.any? { |v| v == 21 }
+  end
+end
+
+class Game
+  attr_accessor :deck, :player_hand, :dealer_hand
+
+  def initialize
+    @deck        = Deck.new
+    @player_hand = Hand.new
+    @dealer_hand = Hand.new
   end
 end
