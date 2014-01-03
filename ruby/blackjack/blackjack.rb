@@ -78,6 +78,10 @@ class Hand
     end.flatten
   end
 
+  def top_value
+    values.reject { |v| v > 21 }.sort.last
+  end
+
   def play deck
     get_card deck.deal_card while playing?
   end
@@ -107,10 +111,6 @@ class Hand
 
   def playing?
     status == :playing
-  end
-
-  def top_value
-    values.reject { |v| v > 21 }.sort.last
   end
 end
 
