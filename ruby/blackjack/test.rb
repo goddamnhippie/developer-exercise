@@ -40,6 +40,10 @@ class DeckTest < MiniTest::Test
 end
 
 class GameTest < MiniTest::Test
+  def setup
+    @game = Game.new
+  end
+
   def test_get_hand_with_two_cards_as_player
 
   end
