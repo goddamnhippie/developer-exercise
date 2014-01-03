@@ -48,7 +48,8 @@ class Deck
 end
 
 class Hand
-  STAND_VALUE = 17
+  STAND_VALUE     = 17
+  BLACKJACK_VALUE = 21
 
   attr_accessor :cards
 
@@ -72,9 +73,9 @@ class Hand
 
   def status
     case
-    when values.all? { |v| v > 21 }
+    when values.all? { |v| v > BLACKJACK_VALUE }
       :bust
-    when values.any? { |v| v == 21 }
+    when values.any? { |v| v == BLACKJACK_VALUE }
       :blackjack
     when values.all? { |v| v > STAND_VALUE }
       :stand
