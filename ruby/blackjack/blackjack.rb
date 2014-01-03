@@ -71,14 +71,20 @@ class Hand
   end
 
   def status
-    return :bust      if bust?
-    return :blackjack if blackjack?
-    return :stand     if stand?
-    :playing
+    case
+    when values.all? { |v| v > 21 }
+      :bust
+    when values.any? { |v| v == 21 }
+      :blackjack
+    when values.all? { |v| v > STAND_VALUE }
+      :stand
+    else
+      :playing
+    end
   end
 
   def play deck
-    cards << deck.deal_card while playing?
+    cards << deck.deal_card while status == :playing
   end
 
 private
@@ -89,22 +95,6 @@ private
 
   def cards_with_multiple_values
     cards - cards_with_single_value
-  end
-
-  def bust?
-    values.all? { |v| v > 21 }
-  end
-
-  def blackjack?
-    values.any? { |v| v == 21 }
-  end
-
-  def stand?
-    values.all? { |v| v > STAND_VALUE }
-  end
-
-  def playing?
-    status == :playing
   end
 end
 
