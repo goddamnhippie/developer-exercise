@@ -52,6 +52,8 @@ class Deck
 end
 
 class Hand
+  STAND_VALUE = 17
+
   attr_accessor :cards
 
   def initialize
@@ -67,13 +69,17 @@ class Hand
   end
 
   def values
-    base = cards_with_single_value.map(&:value).reduce &:+
+    base = cards_with_single_value.map(&:value).reduce(&:+) || 0
 
     return [base] if cards_with_multiple_values.empty?
 
     cards_with_multiple_values.map do |c|
       c.value.map { |v| base + v }
     end.flatten
+  end
+
+  def play deck
+    get_card deck.deal_card while playing?
   end
 
   def get_card card
@@ -83,6 +89,7 @@ class Hand
   def status
     return :bust      if bust?
     return :blackjack if blackjack?
+    return :stand     if stand?
     :playing
   end
 
@@ -93,14 +100,64 @@ class Hand
   def blackjack?
     values.any? { |v| v == 21 }
   end
+
+  def stand?
+    values.all? { |v| v > STAND_VALUE }
+  end
+
+  def playing?
+    status == :playing
+  end
+
+  def done?
+    !playing?
+  end
+
+  def top_value
+    values.reject { |v| v > 21 }.sort.last
+  end
 end
 
 class Game
-  attr_accessor :deck, :player_hand, :dealer_hand
+  attr_accessor :winner, :message
 
   def initialize
     @deck        = Deck.new
     @player_hand = Hand.new
     @dealer_hand = Hand.new
+  end
+
+  def start
+    @player_hand.play @deck
+
+    case @player_hand.status
+    when :bust
+      self.winner  = :dealer
+      self.message = "Player busted with #{ @player_hand.values }"
+    when :blackjack
+      self.winner  = :player
+      self.message = "Player blackjack #{ @player_hand.values }"
+    when :stand
+      @dealer_hand.play @deck
+
+      case @dealer_hand.status
+      when :bust
+        self.winner  = :player
+        self.message = "Dealer busted with #{ @dealer_hand.values } / Player had #{ @player_hand.top_value }"
+      when :blackjack
+        self.winner  = :dealer
+        self.message = "Dealer blackjack #{ @dealer_hand.values } / Player had #{ @player_hand.top_value }"
+      when :stand
+        if @dealer_hand.top_value >= @player_hand.top_value
+          self.winner  = :dealer
+          self.message = "Dealer won with #{ @dealer_hand.top_value } / Player had #{ @player_hand.top_value }"
+        else
+          self.winner  = :player
+          self.message = "Player won with #{ @player_hand.top_value } / Dealer had #{ @dealer_hand.top_value }"
+        end
+      end
+    end
+
+    puts message
   end
 end
