@@ -1,8 +1,9 @@
 require 'youtube_it'
 
-DEVELOPER_KEY = ENV['YOUTUBE_KEY']
+query   = ARGV.join(' ')
+client  = YouTubeIt::Client.new dev_key: ENV['YOUTUBE_KEY']
+results = client.videos_by query: query
 
-client  = YouTubeIt::Client.new dev_key: DEVELOPER_KEY
-results = client.videos_by query: ARGV[0]
+puts "Searched: #{ query }"
 
 results.videos[0..2].each { |v| puts v.player_url }
