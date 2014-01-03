@@ -60,14 +60,6 @@ class Hand
     @cards = []
   end
 
-  def cards_with_single_value
-    cards.reject &:multivalue?
-  end
-
-  def cards_with_multiple_values
-    cards - cards_with_single_value
-  end
-
   def values
     base = cards_with_single_value.map(&:value).reduce(&:+) || 0
 
@@ -82,19 +74,25 @@ class Hand
     values.reject { |v| v > 21 }.sort.last
   end
 
-  def play deck
-    get_card deck.deal_card while playing?
-  end
-
-  def get_card card
-    cards << card
-  end
-
   def status
     return :bust      if bust?
     return :blackjack if blackjack?
     return :stand     if stand?
     :playing
+  end
+
+  def play deck
+    cards << deck.deal_card while playing?
+  end
+
+private
+
+  def cards_with_single_value
+    cards.reject &:multivalue?
+  end
+
+  def cards_with_multiple_values
+    cards - cards_with_single_value
   end
 
   def bust?
@@ -154,6 +152,6 @@ class Game
       end
     end
 
-    puts message
+    message
   end
 end
