@@ -5,10 +5,6 @@ class Card
     @suite, @name, @value = suite, name, value
   end
 
-  def to_s
-    [suite, name, value].to_s
-  end
-
   def multivalue?
     value.is_a? Array
   end
