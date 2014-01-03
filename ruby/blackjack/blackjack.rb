@@ -109,10 +109,6 @@ class Hand
     status == :playing
   end
 
-  def done?
-    !playing?
-  end
-
   def top_value
     values.reject { |v| v > 21 }.sort.last
   end
