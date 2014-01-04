@@ -100,41 +100,35 @@ private
 end
 
 class Game
-  attr_accessor :winner, :message
+  attr_accessor :message
 
   def initialize
-    @deck        = Deck.new
-    @player_hand = Hand.new
-    @dealer_hand = Hand.new
+    @deck   = Deck.new
+    @player = Hand.new
+    @dealer = Hand.new
   end
 
   def start
-    @player_hand.play @deck
+    @player.play @deck
 
-    case @player_hand.status
+    case @player.status
     when :bust
-      self.winner  = :dealer
-      self.message = "Player busted with #{ @player_hand.values }"
+      self.message = "Player busted #{ @player.values }"
     when :blackjack
-      self.winner  = :player
-      self.message = "Player blackjack #{ @player_hand.values }"
+      self.message = "Player blackjack #{ @player.values }"
     when :stand
-      @dealer_hand.play @deck
+      @dealer.play @deck
 
-      case @dealer_hand.status
+      case @dealer.status
       when :bust
-        self.winner  = :player
-        self.message = "Dealer busted with #{ @dealer_hand.values } / Player had #{ @player_hand.top_value }"
+        self.message = "Dealer busted #{ @dealer.values } / Player won (#{ @player.top_value })"
       when :blackjack
-        self.winner  = :dealer
-        self.message = "Dealer blackjack #{ @dealer_hand.values } / Player had #{ @player_hand.top_value }"
+        self.message = "Dealer blackjack #{ @dealer.values } / Player lost (#{ @player.top_value })"
       when :stand
-        if @dealer_hand.top_value >= @player_hand.top_value
-          self.winner  = :dealer
-          self.message = "Dealer won with #{ @dealer_hand.top_value } / Player had #{ @player_hand.top_value }"
+        if @dealer.top_value >= @player.top_value
+          self.message = "Dealer won (#{ @dealer.top_value } vs #{ @player.top_value })"
         else
-          self.winner  = :player
-          self.message = "Player won with #{ @player_hand.top_value } / Dealer had #{ @dealer_hand.top_value }"
+          self.message = "Player won (#{ @player.top_value } vs #{ @dealer.top_value })"
         end
       end
     end
