@@ -100,8 +100,6 @@ private
 end
 
 class Game
-  attr_accessor :message
-
   def initialize
     @deck   = Deck.new
     @player = Hand.new
@@ -113,26 +111,24 @@ class Game
 
     case @player.status
     when :bust
-      self.message = "Player busted #{ @player.values }"
+      "Player busted #{ @player.values }"
     when :blackjack
-      self.message = "Player blackjack #{ @player.values }"
+      "Player blackjack #{ @player.values }"
     when :stand
       @dealer.play @deck
 
       case @dealer.status
       when :bust
-        self.message = "Dealer busted #{ @dealer.values } / Player won (#{ @player.top_value })"
+        "Dealer busted #{ @dealer.values } / Player won (#{ @player.top_value })"
       when :blackjack
-        self.message = "Dealer blackjack #{ @dealer.values } / Player lost (#{ @player.top_value })"
+        "Dealer blackjack #{ @dealer.values } / Player lost (#{ @player.top_value })"
       when :stand
         if @dealer.top_value >= @player.top_value
-          self.message = "Dealer won (#{ @dealer.top_value } vs #{ @player.top_value })"
+          "Dealer won (#{ @dealer.top_value } vs #{ @player.top_value })"
         else
-          self.message = "Player won (#{ @player.top_value } vs #{ @dealer.top_value })"
+          "Player won (#{ @player.top_value } vs #{ @dealer.top_value })"
         end
       end
     end
-
-    message
   end
 end
