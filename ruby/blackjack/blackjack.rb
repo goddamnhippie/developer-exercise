@@ -77,7 +77,7 @@ class Hand
       :bust
     when values.any? { |v| v == BLACKJACK_VALUE }
       :blackjack
-    when values.all? { |v| v > STAND_VALUE }
+    when values.all? { |v| v >= STAND_VALUE }
       :stand
     else
       :playing
