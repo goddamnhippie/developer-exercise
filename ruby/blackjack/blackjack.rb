@@ -68,7 +68,7 @@ class Hand
   end
 
   def top_value
-    values.reject { |v| v > 21 }.sort.last
+    values.reject { |v| v > BLACKJACK_VALUE }.sort.last
   end
 
   def status
