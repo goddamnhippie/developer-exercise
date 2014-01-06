@@ -7,7 +7,7 @@
   <script type="text/javascript" src="http://code.jquery.com/qunit/qunit-1.13.0.js"></script>
   <script>
     window.nestedMenu = {"study":{"reading_material":["Orientation","Math","Verbal","Writing"],"flashcards":"Flashcards","bookmarks":"Bookmarks","notes":"Notes"},"practice":{"flashcards":"Flashcards","quizzes":"Quizzes","performance":"Overall Performance"},"test":{"tests":"Tests","reports":"Reports"}}
-    
+
     $(document).ready(function(){
       for (var title in nestedMenu) {
        if (nestedMenu.hasOwnProperty(title)) {
@@ -16,10 +16,10 @@
       }
     });
   </script>
-  <script type="text/javascript" src="tests.js"></script>  
+  <script type="text/javascript" src="tests.js"></script>
 </head>
 <body>
-  <div>Menu should be rendered below. Please use a nestedMenu structure to build a menu where clicking 
+  <div>Menu should be rendered below. Please use a nestedMenu structure to build a menu where clicking
     on a item from the nestedMenu should replace menu with nested items. Additionally provide functionality to go back menu state you are coming from</div>
   <div id="menu">
   </div>
