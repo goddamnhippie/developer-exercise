@@ -5,6 +5,16 @@
   <link rel="stylesheet" href="http://code.jquery.com/qunit/qunit-1.13.0.css" type="text/css" media="screen" />
   <script type="text/javascript" src="http://code.jquery.com/qunit/qunit-1.13.0.js"></script>
   <script type="text/javascript" src="tests.js"></script>
+  <script>
+    $(document).ready(function(){
+      $('.accordion-header > div').not('.accordion-header > div:first').hide();
+      $('.accordion-header > a').on('click', function() {
+        next_div = $(this).next('div');
+        $('.accordion-header > div:visible').not(next_div).slideUp();
+        next_div.slideDown();
+      });
+    });
+  </script>
 </head>
 <body>
   <div id="act-sections">
