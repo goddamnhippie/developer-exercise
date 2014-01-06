@@ -4,10 +4,6 @@ class Card
   def initialize(suite, name, value)
     @suite, @name, @value = suite, name, value
   end
-
-  def multivalue?
-    value.is_a? Array
-  end
 end
 
 class Deck
@@ -91,7 +87,7 @@ class Hand
 private
 
   def cards_with_single_value
-    cards.reject &:multivalue?
+    cards.reject { |c| c.value.is_a? Array }
   end
 
   def cards_with_multiple_values
