@@ -166,19 +166,19 @@ class Game
              when :playing
                "Player round done."
              when :bust
-               "Dealer bust! You won!\n"
+               "Dealer bust! You won!"
              when :blackjack
-               "Dealer blackjack. You lost.\n"
+               "Dealer blackjack. You lost."
              when :stand
                if @dealer.top_value >= @player.top_value
-                 "You won!\n"
+                 "You lost."
                else
-                 "You lost.\n"
+                 "You won!"
                end
              end
 
       unless @dealer.status == :playing
-        buff << "\n"
+        buff << "\n\n---\n"
         buff << "Dealer hand: #{ @dealer.cards.join ', ' }.\n"
         buff << "Your hand:   #{ @player.cards.join ', ' }.\n"
       end

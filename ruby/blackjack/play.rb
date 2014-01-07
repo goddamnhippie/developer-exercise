@@ -17,9 +17,10 @@ while game.player_status == :playing
     game.player_play
     puts "=> #{ game.player_cards.last }"
   end
+
+  puts
 end
 
 game.dealer_play ENV['DEALER_STAND']
 
-puts
 puts game.result
