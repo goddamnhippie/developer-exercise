@@ -9,7 +9,7 @@ stand_at = Hand::BLACKJACK_VALUE if stand_at && stand_at > Hand::BLACKJACK_VALUE
 
 puts
 puts "Your cards:  #{ game.player_cards.join ', ' }"
-puts "Dealer card: #{ game.dealer_card.to_s }" unless game.player_status == :blackjack
+puts "Dealer card: #{ game.dealer_card }" unless game.player_status == :blackjack
 puts
 
 while game.player_status == :playing
