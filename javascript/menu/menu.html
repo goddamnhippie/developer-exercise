@@ -6,14 +6,72 @@
   <link rel="stylesheet" href="styles.css" type="text/css"/>
   <script type="text/javascript" src="http://code.jquery.com/qunit/qunit-1.13.0.js"></script>
   <script>
-    window.nestedMenu = {"study":{"reading_material":["Orientation","Math","Verbal","Writing"],"flashcards":"Flashcards","bookmarks":"Bookmarks","notes":"Notes"},"practice":{"flashcards":"Flashcards","quizzes":"Quizzes","performance":"Overall Performance"},"test":{"tests":"Tests","reports":"Reports"}}
+    window.nestedMenu = { "study": {
+                            "title": "Study",
+                            "contents": {
+                              "reading_material": "Orientation, Math, Verbal, Writing",
+                              "flashcards":       "Flashcards",
+                              "bookmarks":        "Bookmarks",
+                              "notes":            "Notes"
+                            }
+                          },
+                          "practice": {
+                            "title": "Practice",
+                            "contents": {
+                              "flashcards":  "Flashcards",
+                              "quizzes":     "Quizzes",
+                              "performance": "Overall Performance"
+                            }
+                          },
+                          "test": {
+                            "title": "Test",
+                            "contents": {
+                              "tests":   "Tests",
+                              "reports": "Reports"
+                            }
+                          }
+                        }
 
-    $(document).ready(function(){
-      for (var title in nestedMenu) {
-       if (nestedMenu.hasOwnProperty(title)) {
-         $("#menu").append("<a class='menu' href='#'>"+title+'</a>');
+    function buildMainMenu() {
+      for (var section in nestedMenu) {
+       if (nestedMenu.hasOwnProperty(section)) {
+         buildMenuSection(section);
        }
       }
+    }
+
+    function buildMenuSection(section) {
+      link = $("<a class='menu' href='#'>" + nestedMenu[section]["title"] + '</a>')
+
+      link.click(function() {
+        replaceMenuWith(nestedMenu[section]["contents"]);
+      });
+
+      $("#menu").append(link);
+    }
+
+    function replaceMenuWith(content) {
+      buffer = $('<div id="menu"></div>');
+
+      back = $('<a class="menu" href="#">Back</a>');
+      back.click(function () {
+        $('#menu').empty();
+        buildMainMenu();
+      });
+
+      buffer.append(back);
+
+      for (var item in content) {
+        if (content.hasOwnProperty(item)) {
+          buffer.append($('<a class="menu" href="#">' + content[item] + '</a>'));
+        }
+      }
+
+      $("#menu").replaceWith(buffer);
+    }
+
+    $(document).ready(function(){
+      buildMainMenu();
     });
   </script>
   <script type="text/javascript" src="tests.js"></script>
