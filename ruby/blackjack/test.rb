@@ -57,7 +57,6 @@ class HandTest < MiniTest::Test
 
   def test_bust_with_two_aces
     @hand.cards = [@ace_of_spades, @ace_of_hearts, @jack_of_hearts, @jack_of_spades]
-    puts @hand.values
     assert_equal :bust, @hand.status
   end
 
