@@ -18,7 +18,7 @@ while game.player_status == :playing
   end
 end
 
-game.dealer_play
+game.dealer_play ENV['DEALER_STAND']
 
 puts "Game result:  #{ game.result }"
 puts "Player cards: #{ game.player_cards.join ', ' }"

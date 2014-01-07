@@ -136,10 +136,12 @@ class Game
     @player.cards << @deck.deal_card
   end
 
-  def dealer_play
+  def dealer_play stand_value=nil
+    stand_at = stand_value ? stand_value.to_i : DEFAULT_STAND_VALUE
+
     while @dealer.status == :playing
       @dealer.cards << @deck.deal_card
-      @dealer.stand! if @dealer.values.all? { |v| v >= DEFAULT_STAND_VALUE }
+      @dealer.stand! if @dealer.values.all? { |v| v >= stand_at }
     end if @player.status == :stand
   end
 
