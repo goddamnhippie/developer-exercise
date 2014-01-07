@@ -50,7 +50,7 @@ end
 class Hand
   BLACKJACK_VALUE = 21
 
-  attr_accessor :cards, :stand_at
+  attr_accessor :cards
 
   def initialize
     @cards = []
@@ -76,11 +76,19 @@ class Hand
       :bust
     when values.any? { |v| v == BLACKJACK_VALUE }
       :blackjack
-    when values.all? { |v| v >= stand_at }
+    when stand?
       :stand
     else
       :playing
     end
+  end
+
+  def stand!
+    @stand = true
+  end
+
+  def stand?
+    @stand
   end
 
   def stand_at
@@ -120,12 +128,23 @@ class Game
     @player.cards
   end
 
-  def player_play stand=DEFAULT_STAND_VALUE
-    play_until @player, stand
+  def player_status
+    @player.status
+  end
+
+  def player_stand!
+    @player.stand!
+  end
+
+  def player_play
+    @player.cards << @deck.deal_card
   end
 
   def dealer_play
-    play_until @dealer, DEFAULT_STAND_VALUE if @player.status == :stand
+    while @dealer.status == :playing
+      @dealer.cards << @deck.deal_card
+      @dealer.stand! if @dealer.values.all? { |v| v >= DEFAULT_STAND_VALUE }
+    end if @player.status == :stand
   end
 
   def ongoing?
@@ -160,12 +179,5 @@ class Game
         end
       end
     end
-  end
-
-private
-
-  def play_until player, stand_value
-    player.stand_at = stand_value
-    player.cards << @deck.deal_card while player.status == :playing
   end
 end

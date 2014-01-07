@@ -2,19 +2,22 @@
 
 require_relative 'blackjack'
 
-game  = Game.new
-stand = ARGV[0].to_i.abs
+game = Game.new
 
-if stand.zero?
-  puts "Dealer card: #{ game.dealer_card.to_s }"
-  puts "Enter your stand number:"
+puts "Your cards:  #{ game.player_cards.join ', ' }"
+puts "Dealer card: #{ game.dealer_card.to_s }"
 
-  stand = gets.chomp.to_i.abs
+while game.player_status == :playing
+  puts "Hit again? (y/n)"
+
+  if STDIN.gets.start_with? 'y', 'Y'
+    game.player_play
+    puts "You got: #{ game.player_cards.last }"
+  else
+    game.player_stand!
+  end
 end
 
-stand = Hand::BLACKJACK_VALUE if stand > Hand::BLACKJACK_VALUE
-
-game.player_play stand
 game.dealer_play
 
 puts "Game result:  #{ game.result }"

@@ -82,7 +82,7 @@ class GameTest < MiniTest::Test
 
     refute @game.finished?
 
-    @game.player_play
+    @game.player_stand!
     @game.dealer_play
 
     assert @game.finished?
