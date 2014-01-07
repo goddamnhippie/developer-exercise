@@ -4,6 +4,10 @@ class Card
   def initialize(suite, name, value)
     @suite, @name, @value = suite, name, value
   end
+
+  def to_s
+    "#{ name.to_s.capitalize } of #{ suite.to_s.capitalize }"
+  end
 end
 
 class Deck
