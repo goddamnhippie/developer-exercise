@@ -112,6 +112,9 @@ class Game
     @player.cards << @deck.deal_card
     @dealer.cards << @deck.deal_card
   end
+
+  def dealer_card
+    @dealer.cards[1]
   end
 
   def play stand_value=nil
