@@ -8,13 +8,13 @@ puts "Your cards:  #{ game.player_cards.join ', ' }"
 puts "Dealer card: #{ game.dealer_card.to_s }"
 
 while game.player_status == :playing
-  puts "Hit again? (y/n)"
+  puts "Hit? (Y/n)"
 
-  if STDIN.gets.start_with? 'y', 'Y'
+  if STDIN.gets.start_with? 'n', 'N'
+    game.player_stand!
+  else
     game.player_play
     puts "You got: #{ game.player_cards.last }"
-  else
-    game.player_stand!
   end
 end
 
