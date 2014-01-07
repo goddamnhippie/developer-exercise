@@ -45,15 +45,15 @@ class GameTest < MiniTest::Test
   end
 
   def test_get_hand_with_two_cards_as_player
-
+    assert_equal @game.instance_variable_get("@player").cards.size, 2
   end
 
   def test_get_hand_with_two_cards_as_dealer
-
+    assert_equal @game.instance_variable_get("@dealer").cards.size, 2
   end
 
   def test_can_see_one_dealer_card_as_player
-
+    assert @game.dealer_card
   end
 
   def test_can_bust_when_playing
