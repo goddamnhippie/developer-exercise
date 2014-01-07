@@ -44,7 +44,6 @@ class Deck
 end
 
 class Hand
-  STAND_VALUE     = 17
   BLACKJACK_VALUE = 21
 
   attr_accessor :cards
@@ -73,15 +72,20 @@ class Hand
       :bust
     when values.any? { |v| v == BLACKJACK_VALUE }
       :blackjack
-    when values.all? { |v| v >= STAND_VALUE }
+    when values.all? { |v| v >= stand_at }
       :stand
     else
       :playing
     end
   end
 
-  def play deck
+  def play deck, stand_value
+    @stand_at = stand_value
     cards << deck.deal_card while status == :playing
+  end
+
+  def stand_at
+    @stand_at || BLACKJACK_VALUE
   end
 
 private
@@ -96,14 +100,16 @@ private
 end
 
 class Game
+  DEALER_STAND_VALUE = 17
+
   def initialize
     @deck   = Deck.new
     @player = Hand.new
     @dealer = Hand.new
   end
 
-  def start
-    @player.play @deck
+  def play stand_value=nil
+    @player.play @deck, stand_value
 
     case @player.status
     when :bust
@@ -111,7 +117,7 @@ class Game
     when :blackjack
       "Player blackjack #{ @player.values }"
     when :stand
-      @dealer.play @deck
+      @dealer.play @deck, DEALER_STAND_VALUE
 
       case @dealer.status
       when :bust
