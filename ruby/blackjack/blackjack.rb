@@ -50,7 +50,7 @@ end
 class Hand
   BLACKJACK_VALUE = 21
 
-  attr_accessor :cards
+  attr_accessor :cards, :stand_at
 
   def initialize
     @cards = []
@@ -83,11 +83,6 @@ class Hand
     end
   end
 
-  def play deck, stand_value
-    @stand_at = stand_value
-    cards << deck.deal_card while status == :playing
-  end
-
   def stand_at
     @stand_at || BLACKJACK_VALUE
   end
@@ -104,7 +99,7 @@ private
 end
 
 class Game
-  DEALER_STAND_VALUE = 17
+  DEFAULT_STAND_VALUE = 17
 
   def initialize
     @deck   = Deck.new
@@ -121,18 +116,38 @@ class Game
     @dealer.cards[1]
   end
 
-  def play stand_value=nil
-    @player.play @deck, stand_value
+  def player_cards
+    @player.cards
+  end
 
+  def player_play stand=DEFAULT_STAND_VALUE
+    play_until @player, stand
+  end
+
+  def dealer_play
+    play_until @dealer, DEFAULT_STAND_VALUE if @player.status == :stand
+  end
+
+  def ongoing?
+    @player.status == :playing || (@player.status == :stand && @dealer.status == :playing)
+  end
+
+  def finished?
+    !ongoing?
+  end
+
+  def result
     case @player.status
+    when :playing
+      "Initial round done"
     when :bust
       "Player busted #{ @player.values }"
     when :blackjack
       "Player blackjack #{ @player.values }"
     when :stand
-      @dealer.play @deck, DEALER_STAND_VALUE
-
       case @dealer.status
+      when :playing
+        "Dealer still playing / Player got #{ @player.values }"
       when :bust
         "Dealer busted #{ @dealer.values } / Player won (#{ @player.top_value })"
       when :blackjack
@@ -145,5 +160,12 @@ class Game
         end
       end
     end
+  end
+
+private
+
+  def play_until player, stand_value
+    player.stand_at = stand_value
+    player.cards << @deck.deal_card while player.status == :playing
   end
 end

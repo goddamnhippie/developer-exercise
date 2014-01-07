@@ -2,22 +2,20 @@
 
 require_relative 'blackjack'
 
-SIMULATE_STAND_VALUE = 17
+game  = Game.new
+stand = ARGV[0].to_i.abs
 
-play_mode = ARGV[0] == 'simulate' ? :simulate : :interactive
-
-game = Game.new
-
-if play_mode == :interactive
+if stand.zero?
   puts "Dealer card: #{ game.dealer_card.to_s }"
-  puts "Enter your stand value:"
+  puts "Enter your stand number:"
 
-  stand_value = gets.chomp.to_i.abs
-  stand_value = Hand::BLACKJACK_VALUE if stand_value > Hand::BLACKJACK_VALUE
-else
-  stand_value =  SIMULATE_STAND_VALUE
+  stand = gets.chomp.to_i.abs
 end
 
-result = game.play stand_value
+stand = Hand::BLACKJACK_VALUE if stand > Hand::BLACKJACK_VALUE
 
-puts result
+game.player_play stand
+game.dealer_play
+
+puts "Game result:  #{ game.result }"
+puts "Player cards: #{ game.player_cards.join ', ' }"

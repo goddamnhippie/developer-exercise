@@ -39,6 +39,27 @@ class DeckTest < MiniTest::Test
   end
 end
 
+class HandTest < MiniTest::Test
+  def setup
+    @hand = Hand.new
+
+    @jack_of_hearts = Card.new :hearts, :jack,  Deck::NAME_VALUES[:jack]
+    @jack_of_spades = Card.new :spades, :jack,  Deck::NAME_VALUES[:jack]
+    @ace_of_hearts  = Card.new :hearts, :ace,   Deck::NAME_VALUES[:ace]
+    @seven_of_clubs = Card.new :clubs,  :seven, Deck::NAME_VALUES[:seven]
+  end
+
+  def test_can_bust_when_playing
+    @hand.cards = [@jack_of_hearts, @jack_of_spades, @seven_of_clubs]
+    assert_equal @hand.status, :bust
+  end
+
+  def test_can_blackjack_when_playing
+    @hand.cards = [@ace_of_hearts, @jack_of_spades]
+    assert_equal @hand.status, :blackjack
+  end
+end
+
 class GameTest < MiniTest::Test
   def setup
     @game = Game.new
@@ -56,15 +77,14 @@ class GameTest < MiniTest::Test
     assert @game.dealer_card
   end
 
-  def test_can_bust_when_playing
-
-  end
-
-  def test_can_blackjack_when_playing
-
-  end
-
   def test_can_play_after_player_as_dealer
+    @game.dealer_play
 
+    refute @game.finished?
+
+    @game.player_play
+    @game.dealer_play
+
+    assert @game.finished?
   end
 end
