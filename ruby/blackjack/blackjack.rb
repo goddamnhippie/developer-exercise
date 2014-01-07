@@ -62,9 +62,14 @@ class Hand
     if cards_with_multiple_values.empty?
       [base]
     else
-      cards_with_multiple_values.map do |c|
-        c.value.map { |v| base + v }
-      end.flatten
+      aces      = cards_with_multiple_values.dup
+      first_ace = aces.shift
+
+      if aces.empty?
+        first_ace.value.map { |v| v + base }
+      else
+        first_ace.value.product(*aces.map(&:value)).map { |v| v.reduce(&:+) + base }.uniq
+      end
     end
   end
 
