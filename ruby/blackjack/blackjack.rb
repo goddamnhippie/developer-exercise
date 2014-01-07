@@ -6,7 +6,7 @@ class Card
   end
 
   def to_s
-    "#{ name.to_s.capitalize } of #{ suite.to_s.capitalize }"
+    "#{ name.to_s.capitalize } of #{ suite.to_s.capitalize } (#{ value })"
   end
 end
 

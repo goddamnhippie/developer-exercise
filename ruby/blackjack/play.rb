@@ -21,11 +21,12 @@ while game.player_status == :playing
     STDIN.gets.start_with? 'n', 'N'
   end
 
+  puts (should_stand ? 'n' : 'y') if stand_at
+
   if should_stand
     game.player_stand!
   else
     game.player_play
-    puts if stand_at
     puts "=> #{ game.player_cards.last }"
   end
 
