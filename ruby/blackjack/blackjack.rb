@@ -91,10 +91,6 @@ class Hand
     @stand
   end
 
-  def stand_at
-    @stand_at || BLACKJACK_VALUE
-  end
-
 private
 
   def cards_with_single_value
