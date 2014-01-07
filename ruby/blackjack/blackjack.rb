@@ -59,11 +59,13 @@ class Hand
   def values
     base = cards_with_single_value.map(&:value).reduce(&:+) || 0
 
-    return [base] if cards_with_multiple_values.empty?
-
-    cards_with_multiple_values.map do |c|
-      c.value.map { |v| base + v }
-    end.flatten
+    if cards_with_multiple_values.empty?
+      [base]
+    else
+      cards_with_multiple_values.map do |c|
+        c.value.map { |v| base + v }
+      end.flatten
+    end
   end
 
   def top_value
