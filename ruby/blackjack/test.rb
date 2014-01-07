@@ -65,19 +65,19 @@ class GameTest < MiniTest::Test
     @game = Game.new
   end
 
-  def test_get_hand_with_two_cards_as_player
-    assert_equal @game.instance_variable_get("@player").cards.size, 2
+  def test_player_gets_hand_with_two_cards
+    assert_equal @game.player_cards.size, 2
   end
 
-  def test_get_hand_with_two_cards_as_dealer
+  def test_dealer_gets_hand_with_two_cards
     assert_equal @game.instance_variable_get("@dealer").cards.size, 2
   end
 
-  def test_can_see_one_dealer_card_as_player
+  def test_player_can_see_one_dealer_card
     assert @game.dealer_card
   end
 
-  def test_can_play_after_player_as_dealer
+  def test_dealer_can_play_after_player_stands
     @game.dealer_play
 
     refute @game.finished?
