@@ -106,6 +106,12 @@ class Game
     @deck   = Deck.new
     @player = Hand.new
     @dealer = Hand.new
+
+    @player.cards << @deck.deal_card
+    @dealer.cards << @deck.deal_card
+    @player.cards << @deck.deal_card
+    @dealer.cards << @deck.deal_card
+  end
   end
 
   def play stand_value=nil
