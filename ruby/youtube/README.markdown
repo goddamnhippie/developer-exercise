@@ -1,5 +1,9 @@
 # SimpleYoutube
 
+### Requirements
+
+* Nokogiri
+
 ## Usage
 
 
