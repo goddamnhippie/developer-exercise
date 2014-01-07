@@ -156,26 +156,34 @@ class Game
   def result
     case @player.status
     when :playing
-      "Initial round done"
+      "Initial round done."
     when :bust
-      "Player busted #{ @player.values }"
+      "Bust!"
     when :blackjack
-      "Player blackjack #{ @player.values }"
+      "Blackjack!"
     when :stand
-      case @dealer.status
-      when :playing
-        "Dealer still playing / Player got #{ @player.values }"
-      when :bust
-        "Dealer busted #{ @dealer.values } / Player won (#{ @player.top_value })"
-      when :blackjack
-        "Dealer blackjack #{ @dealer.values } / Player lost (#{ @player.top_value })"
-      when :stand
-        if @dealer.top_value >= @player.top_value
-          "Dealer won (#{ @dealer.top_value } vs #{ @player.top_value })"
-        else
-          "Player won (#{ @player.top_value } vs #{ @dealer.top_value })"
-        end
+      buff = case @dealer.status
+             when :playing
+               "Player round done."
+             when :bust
+               "Dealer bust! You won!\n"
+             when :blackjack
+               "Dealer blackjack. You lost.\n"
+             when :stand
+               if @dealer.top_value >= @player.top_value
+                 "You won!\n"
+               else
+                 "You lost.\n"
+               end
+             end
+
+      unless @dealer.status == :playing
+        buff << "\n"
+        buff << "Dealer hand: #{ @dealer.cards.join ', ' }.\n"
+        buff << "Your hand:   #{ @player.cards.join ', ' }.\n"
       end
+
+      buff
     end
   end
 end
