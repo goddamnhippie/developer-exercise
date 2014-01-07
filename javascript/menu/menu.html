@@ -32,8 +32,8 @@
                           }
                         }
 
-    function buildMainMenu() {
-      for (var section in nestedMenu) {
+    function buildMainMenu(sections) {
+      for (var section in sections) {
        if (nestedMenu.hasOwnProperty(section)) {
          buildMenuSection(section);
        }
@@ -56,7 +56,7 @@
       back = $('<a class="menu" href="#">Back</a>');
       back.click(function () {
         $('#menu').empty();
-        buildMainMenu();
+        buildMainMenu(nestedMenu);
       });
 
       buffer.append(back);
@@ -71,7 +71,7 @@
     }
 
     $(document).ready(function(){
-      buildMainMenu();
+      buildMainMenu(nestedMenu);
     });
   </script>
   <script type="text/javascript" src="tests.js"></script>
