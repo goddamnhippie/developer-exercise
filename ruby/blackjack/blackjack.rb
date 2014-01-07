@@ -128,6 +128,10 @@ class Game
     @player.status
   end
 
+  def player_values
+    @player.values
+  end
+
   def player_stand!
     @player.stand!
   end
