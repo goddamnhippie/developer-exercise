@@ -51,19 +51,19 @@ class HandTest < MiniTest::Test
 
   def test_can_bust_when_playing
     @hand.cards = [@jack_of_hearts, @jack_of_spades, @seven_of_clubs]
-    assert_equal @hand.status, :bust
+    assert_equal :bust, @hand.status
   end
 
   def test_can_blackjack_when_playing
     @hand.cards = [@ace_of_hearts, @jack_of_spades]
-    assert_equal @hand.status, :blackjack
+    assert_equal :blackjack, @hand.status
   end
 
   def test_stand_sets_correct_status
     @hand.cards = [@jack_of_hearts, @seven_of_clubs]
     @hand.stand!
 
-    assert_equal @hand.status, :stand
+    assert_equal :stand, @hand.status
   end
 end
 
