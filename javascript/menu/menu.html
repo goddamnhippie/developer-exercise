@@ -33,7 +33,9 @@
                         }
 
     function buildMainMenu(sections) {
-      for (var section in sections) {
+      var section = null;
+
+      for (section in sections) {
        if (nestedMenu.hasOwnProperty(section)) {
          buildMenuSection(section);
        }
@@ -41,7 +43,7 @@
     }
 
     function buildMenuSection(section) {
-      link = $("<a class='menu' href='#'>" + nestedMenu[section]["title"] + '</a>')
+      var link = $("<a class='menu' href='#'>" + nestedMenu[section]["title"] + '</a>')
 
       link.click(function() {
         replaceMenuWith(nestedMenu[section]["contents"]);
@@ -51,9 +53,10 @@
     }
 
     function replaceMenuWith(content) {
-      buffer = $('<div id="menu"></div>');
+      var buffer = $('<div id="menu"></div>');
+      var item   = null;
+      var back   = $('<a class="menu" href="#">Back</a>');
 
-      back = $('<a class="menu" href="#">Back</a>');
       back.click(function () {
         $('#menu').empty();
         buildMainMenu(nestedMenu);
@@ -61,7 +64,7 @@
 
       buffer.append(back);
 
-      for (var item in content) {
+      for (item in content) {
         if (content.hasOwnProperty(item)) {
           buffer.append($('<a class="menu" href="#">' + content[item] + '</a>'));
         }
